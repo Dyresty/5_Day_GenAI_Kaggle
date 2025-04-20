@@ -118,3 +118,50 @@ Prefix caching - For repeating parts of the input. Saves time. Caching the self-
 Speculative decording - smaller, faster drafter model to poredict a bunch of future models. The main model checks and accepts the tokens if they are right and skips the calculations for them which speeds up the decoding process.
 Batching - Multiple requests at the same time, more efficient than doing them one by one
 Parallelizations - Splitting up the computation across multiple processors. 
+
+# Prompt Engineering 
+Designing the input in such a way that the output is as desired.
+Output length - Token length directly impacts costs, processing time. Low token limit being set does not cut it. 
+
+## Sampling controls
+Temperature - Randomness. 
+Low temperature - Most predictable output. Best guess. 
+High temperaturem - More randomness, explore new ideas. Breakthroughs. 
+- Top K sampling limits the model's choices to the top K most likely tokens which help control output.
+- Top P sampling / nucleus sampling - Dynamic threshold based on the probabilities of the tokens.
+- Best of N sampling generates multiple responses and picks the best ones based on some criteria.
+When three of temp, Top K and Top P are on, Model puts together the words that meet the Top K and Top P criteria. Then the temperature setting comes in to pick from the set by probabilities.
+Suggested Temp of 0.2, Top P of 0.95 and Top K of 30.
+Creative Temp of 0.9, Top P of 0.99 and Top K of 40.
+Factual Temp of 0.1, Top P of 0.9 and Top K of 20.
+Single correct answer needed, best bet - Temperature of 0
+
+Repition Loop Bug
+Where the model gets stuck repeating the same words or phrases over and over. Happens both on low and high temps. Low temps it can be too predictable and get stuck in a loop revisiting the same words. High temps it can be so random that it revisits the words and gets stuck in a loop. 
+
+Key is to fine tune the parameters to find the sweet spot where there is creative, interesting answers.
+
+Prompt Engineering 
+- Crafting clear prompts is of essence.
+- Document the prompts and see what works best and why. 
+
+General / Zero Shot prompting
+One Shot Prompting
+Few Shot Prompting
+
+Quality and relevance of the chosen examples are crucial. Even small errors will lead to confusion, garbage output. 
+
+For a high level guidance to the LLM
+System Prompting - Setting overall context and purpose. Defining big picture. Output requirements... Using system prompts for output can help limit errors and ensure the data comes back in a usable order.
+Contextual Prompting - Providing background information relevant to the task at hand. More context, more helpful and relevant the model's response is likely to be. 
+Role Prompting - Giving LLM a persona/identity. Clear understanding of the perspective it needs to take. 
+Stepback Prompting - Ask the LLM to a broader question before diving into the specific question. Insightful and creative responses. Helps mitigate biases in the LLMs responses. 
+
+Chain of Thought Prompting - Boosting the model's reasoning capabilities. Prompting it to generate intermediate reasoning steps before giving the final answer or code suggestion. More tokens, higher cost and processing time. 
+
+Self Consistency - Get the model to generate multiple reasoning paths for the same prompts and then we choose the most consistent answer. 
+
+Tree of Thoughts - Multiple reasoning paths simultaneously. Exploring and backtracking. For very challenging problems.
+
+React - Reason and Act 
+Using the ability of the LLM to reason and use tools such as search engine, code interpreters, apis. 
